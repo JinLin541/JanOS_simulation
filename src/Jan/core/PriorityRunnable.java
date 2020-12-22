@@ -1,5 +1,8 @@
 package Jan.core;
 
+import Jan.util.CounterTime;
+import org.w3c.dom.css.Counter;
+
 public class PriorityRunnable implements Runnable{
     //按优先级调度的Runnable类
     private int priority;
@@ -30,16 +33,13 @@ public class PriorityRunnable implements Runnable{
     public void run() {
         //让这个类一直运行，直到遇到kill方法
         do {
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
         } while (!deadPaper.getKillCommit());
     }
 
     @Override
     public String toString() {
-        return "name"+": "+name+"  "+"UID: "+ deadPaper.getId();
+        CounterTime counterTime = new CounterTime(deadPaper.getLifeTime());
+        return "name"+": "+name+"  "+"UID: "+ deadPaper.getId() +"  "+"run time: "+counterTime;
     }
 }

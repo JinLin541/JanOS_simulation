@@ -27,4 +27,9 @@ public class Attemper {
     public static void clearJobList(){
         jobList.clear();
     }
+    public static void displayJobs(){
+        for(PriorityRunnable x : jobList){
+            System.out.println(x);
+        }
+    }
 }

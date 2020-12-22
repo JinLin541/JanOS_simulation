@@ -32,11 +32,13 @@ public class Shell {
             case "displayWait":
                 Core.displayWait();
                 break;
+            case "displayJobs":
+                Attemper.displayJobs();
+                break;
             default:
                 if(!buff[0].equals("")){
-                    System.out.println(buff[0]);
+                    System.out.println(buff[0]+"不是内部命令");
                 }
-
         }
     }
     private static void killThread(){

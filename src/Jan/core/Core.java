@@ -107,7 +107,7 @@ public class Core {
 //        System.out.println("Please input the max PCB number:");
 //        Scanner scanner_PCB = new Scanner(System.in);
 //        int number = Integer.parseInt(scanner_PCB.nextLine());
-        Core.setPCB_Number(1);
+        Core.setPCB_Number(3);
         Thread main = Thread.currentThread();
         main.setPriority(10);
         System.out.println("成功进入JanOS");
@@ -121,4 +121,5 @@ public class Core {
             Shell.dosCommand(commit);
         }
     }
+
 }
