@@ -53,7 +53,11 @@ public class PriorityRunnable implements Runnable{
             //把isRunning设置为true，表示有进程正在CPU里面运行
             Core.setRunningStatus(true);
             do {
-
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             } while (!deadPaper.getKillCommit());
             //把change改为null
             Core.setRunningProcess(null);
