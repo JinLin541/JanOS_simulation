@@ -29,7 +29,7 @@ public class Attemper {
     }
     public static void displayJobs(){
         for(PriorityRunnable x : jobList){
-            System.out.println(x);
+            System.out.println("name"+": "+x.getName()+"  "+"UID: "+ x.getDeadPaper().getId());
         }
     }
 }

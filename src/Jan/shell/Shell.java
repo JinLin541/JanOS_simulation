@@ -35,6 +35,9 @@ public class Shell {
             case "displayJobs":
                 Attemper.displayJobs();
                 break;
+            case "showRunning":
+                System.out.println(Core.getRunningProcess());
+                break;
             default:
                 if(!buff[0].equals("")){
                     System.out.println(buff[0]+"不是内部命令");

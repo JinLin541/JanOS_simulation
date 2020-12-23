@@ -17,9 +17,26 @@ public class Core {
     private static List<PriorityRunnable> joblist;
     private static LinkedList<PriorityRunnable> waitJob;
     private static List<PriorityRunnable> submitJoblist;
+    //记录当前的运行状态
+    private static PriorityRunnable runningProcess;
+    //记录有没有进程在运行
+    private static boolean isRunning;
     static{
         submitJoblist = new ArrayList<>();
         waitJob = new LinkedList<>();
+        isRunning = false;
+    }
+    public static boolean getRunningStatus(){
+        return isRunning;
+    }
+    public static void setRunningStatus(boolean isRunning){
+        Core.isRunning = isRunning;
+    }
+    public static void setRunningProcess(PriorityRunnable pr){
+        runningProcess = pr;
+    }
+    public static PriorityRunnable getRunningProcess(){
+        return runningProcess;
     }
     public static List<PriorityRunnable> getSubmitJoblist(){
         return submitJoblist;
@@ -32,6 +49,7 @@ public class Core {
     public static void priorityAttemper(){
         //获取作业队列
         joblist = Attemper.getJobList();
+        //让优先级高的任务先进去就绪队列
         joblist.sort(new Comparator<PriorityRunnable>() {
             @Override
             public int compare(PriorityRunnable o1, PriorityRunnable o2) {
@@ -45,6 +63,7 @@ public class Core {
         }else if(joblist.size() > PCB_Number){
             for(int i = 0;i <PCB_Number;i++){
                 PriorityRunnable pr = joblist.get(i);
+                pr.getDeadPaper().setBirthTime(System.currentTimeMillis());
                 Thread thread = new Thread(pr,pr.getName());
                 thread.setPriority(1);
                 executorService.submit(thread);
@@ -57,6 +76,7 @@ public class Core {
         }else{
             //没有超过pcb，就全部加进去
             for(PriorityRunnable x : joblist){
+                x.getDeadPaper().setBirthTime(System.currentTimeMillis());
                 Thread thread = new Thread(x,x.getName());
                 thread.setPriority(1);
                 //提交给线程池
@@ -64,6 +84,13 @@ public class Core {
                 submitJoblist.add(x);
             }
         }
+        //按优先级重新排列就绪队列，保证优先级高的能最先被调用
+        submitJoblist.sort(new Comparator<PriorityRunnable>() {
+            @Override
+            public int compare(PriorityRunnable o1, PriorityRunnable o2) {
+                return Integer.compare(o1.getPriority(), o2.getPriority());
+            }
+        });
         Attemper.clearJobList();
     }
     public static void displayProcess(){
@@ -118,8 +145,12 @@ public class Core {
             System.out.print("[JanOS@root]# ");
             scanner = new Scanner(System.in);
             String commit = scanner.nextLine();
+            if(commit.equals("quit")){
+                quit = true;
+                break;
+            }
             Shell.dosCommand(commit);
         }
+        System.out.println("Bye");
     }
-
 }

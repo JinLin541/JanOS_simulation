@@ -9,6 +9,9 @@ public class DeadPaper {
         this.id = id;
         birthTime = System.currentTimeMillis();
     }
+    public void setBirthTime(long time){
+        birthTime = time;
+    }
     public void setKillCommit(boolean flag){
         this.killCommit = flag;
     }
